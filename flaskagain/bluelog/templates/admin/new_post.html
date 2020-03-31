@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block title %}新文章{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>新文章</h1>
+
+
+
+
+     <li style="list-style-type:none" class="nav-item dropdown">
+                        <a class="btn btn-info btn-sm" href="{{ url_for('.new_moban') }}">添加模板</a>
+                        <a href="#" class="btn btn-info btn-sm " data-toggle="dropdown" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                使用模板<span class="caret"></span>
+                        </a>
+
+                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for moban in mobans %}
+                        <ul><a href="{{ url_for('.edit_moban', moban_id=moban.id) }}">{{ moban.title }}</a></ul>
+                            {% endfor %}
+                        </div>
+
+    </li>
+
+    </div>
+    {{ render_form(form) }}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+    {{ ckeditor.config(name='body') }}
+{% endblock %}

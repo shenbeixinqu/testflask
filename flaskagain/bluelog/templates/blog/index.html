@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/pagination.html' import render_pager %}
+
+{% block title %}盘古{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-8">
+            {% include 'blog/_posts.html' %}
+            {% if posts %}
+                <div class="page-footer">{{ render_pager(pagination) }}</div>
+            {% endif %}
+        </div>
+    {% if current_user.is_authenticated %}
+        <div class="col-sm-4 sidebar">
+            {% include 'blog/_sidebar.html' %}
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

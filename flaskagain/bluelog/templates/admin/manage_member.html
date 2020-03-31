@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block title %}管理成员{% endblock %}
+
+{% block content %}
+
+    {% if categories %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>成员</th>
+                <th>选项</th>
+            </tr>
+            </thead>
+            {% for member in members %}
+        {% if current_user.is_admin %}
+            {% if not member.is_admin %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><a href="{{ url_for('admin.manage_member') }}">{{ member.username }}</a>
+                    </td>
+                    <td>
+
+                            <form class="inline" method="post"
+                              action="{{ url_for('admin.approve_member', member_id=member.id, next=request.full_path) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-success btn-sm">设置管理员</button>
+                            </form>
+
+                    </td>
+                </tr>
+             {% endif %}
+        {% endif %}
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="tip"><h5>没有部门</h5></div>
+    {% endif %}
+{% endblock %}
